@@ -1,33 +1,30 @@
-import java.util.Random;
-
 public abstract class Personaje {
-    private final Random random = new Random();
-    private final String nombre;
     private final int vidaMax;
-    private int vida;
-    private int ataqueMax;
+    private final int fuerza;
+    private int vidaActual;
 
-    public Personaje(String nombre, int vidaMax, int ataqueMax) {
-        this.nombre = nombre;
+    public Personaje(int vidaMax, int fuerza) {
         this.vidaMax = vidaMax;
-        this.vida = this.vidaMax;
-        this.ataqueMax = ataqueMax;
+        this.fuerza = fuerza;
+        this.vidaActual = vidaMax;
     }
 
-    public void atacar(Personaje objetivo) {
-        int ataque = random.nextInt(ataqueMax);
-        String mensajeAtaque = String.format("%s ataca a %s.", nombre, objetivo.nombre);
-        objetivo.recibirAtaque(ataque);
-        System.out.println(mensajeAtaque);
+    public boolean atacar(Personaje objetivo) {
+        int fuerzaFinal = Dado.tirarDado(fuerza);
+        return objetivo.recibirDanio(fuerzaFinal);
     }
 
-    public void recibirAtaque(int ataque) {
-        String mensajeAtaqueRecibido = String.format("%s ha recibido %d de daño.", nombre, ataque);
-        vida -= ataque;
-        System.out.println(mensajeAtaqueRecibido);
+    public boolean recibirDanio(int cantidad) {
+        int cantidadFinal = Math.min(0, cantidad);
+        vidaActual = Math.max(vidaActual - cantidadFinal, 0);
+        return vidaActual == 0;
     }
 
-    public int getAtaque() {
-        return ataqueMax;
+    public void curar(int cantidad) {
+        vidaActual = Math.min(vidaActual + cantidad, vidaMax);
+    }
+
+    public int getFuerza() {
+        return fuerza;
     }
 }
