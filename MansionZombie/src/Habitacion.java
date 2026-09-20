@@ -8,7 +8,7 @@ public class Habitacion {
 
     public Habitacion(int numero) {
         this.numero = numero;
-        zombies.add(generarZombie(numero));
+        zombies.add(generarZombie(this.numero));
     }
 
     private Zombie generarZombie(int numeroHabitacion) {
