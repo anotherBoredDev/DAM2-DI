@@ -42,4 +42,12 @@ public class Superviviente extends Personaje {
     public void conseguirProteccion() {
         cantidadProtecciones += 1;
     }
+
+    public int getCantidadArmas() {
+        return cantidadArmas;
+    }
+
+    public int getCantidadProtecciones() {
+        return cantidadProtecciones;
+    }
 }

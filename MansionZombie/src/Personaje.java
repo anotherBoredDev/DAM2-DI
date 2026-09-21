@@ -15,7 +15,7 @@ public abstract class Personaje {
     }
 
     public boolean recibirDanio(int cantidad) {
-        int cantidadFinal = Math.min(0, cantidad);
+        int cantidadFinal = Math.max(0, cantidad);
         vidaActual = Math.max(vidaActual - cantidadFinal, 0);
         return vidaActual == 0;
     }
@@ -24,7 +24,15 @@ public abstract class Personaje {
         vidaActual = Math.min(vidaActual + cantidad, vidaMax);
     }
 
+    public int getVidaActual() {
+        return vidaActual;
+    }
+
     public int getFuerza() {
         return fuerza;
+    }
+
+    public boolean estaVivo() {
+        return vidaActual != 0;
     }
 }
