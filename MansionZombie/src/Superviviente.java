@@ -4,18 +4,23 @@ public class Superviviente extends Personaje {
     private int cantidadProtecciones = 0;
 
     public Superviviente() {
-        super(20, 4); // Puntos de vida y fuerza base.
+        super("Superviviente", 20, 4); // Puntos de vida y fuerza base.
     }
 
     @Override
-    public boolean atacar(Personaje objetivo) {
+    public int atacar(Personaje objetivo) {
         int fuerzaFinal = Dado.tirarDado(getFuerza()) + cantidadArmas;
-        return objetivo.recibirDanio(fuerzaFinal);
+        objetivo.recibirDanio(fuerzaFinal);
+        return fuerzaFinal;
     }
 
     @Override
     public boolean recibirDanio(int cantidad) {
         return super.recibirDanio(cantidad - cantidadProtecciones);
+    }
+
+    public void curar(int cantidad) {
+        setVidaActual(getVidaActual() + cantidad);
     }
 
     public boolean usarBotiquin() {

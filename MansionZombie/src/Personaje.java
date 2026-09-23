@@ -1,17 +1,20 @@
 public abstract class Personaje {
+    private final String nombre;
     private final int vidaMax;
     private final int fuerza;
     private int vidaActual;
 
-    public Personaje(int vidaMax, int fuerza) {
+    public Personaje(String nombre, int vidaMax, int fuerza) {
+        this.nombre = nombre;
         this.vidaMax = vidaMax;
         this.fuerza = fuerza;
         this.vidaActual = vidaMax;
     }
 
-    public boolean atacar(Personaje objetivo) {
+    public int atacar(Personaje objetivo) {
         int fuerzaFinal = Dado.tirarDado(fuerza);
-        return objetivo.recibirDanio(fuerzaFinal);
+        objetivo.recibirDanio(fuerzaFinal);
+        return fuerzaFinal;
     }
 
     public boolean recibirDanio(int cantidad) {
@@ -20,19 +23,20 @@ public abstract class Personaje {
         return vidaActual == 0;
     }
 
-    public void curar(int cantidad) {
-        vidaActual = Math.min(vidaActual + cantidad, vidaMax);
+    public String getNombre() {
+        return nombre;
     }
 
     public int getVidaActual() {
         return vidaActual;
     }
 
+    public void setVidaActual(int vidaActual) {
+        this.vidaActual = Math.min(vidaActual, vidaMax);
+    }
+
     public int getFuerza() {
         return fuerza;
     }
 
-    public boolean estaVivo() {
-        return vidaActual != 0;
-    }
 }

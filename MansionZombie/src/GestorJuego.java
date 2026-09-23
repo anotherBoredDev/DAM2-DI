@@ -1,13 +1,22 @@
 import java.util.List;
 
 public class GestorJuego {
+    public enum EstadosJuego {
+        PREPARANDO,
+        JUGANDO,
+        GANADO,
+        PERDIDO,
+    }
+
+    private EstadosJuego estado;
     private Superviviente superviviente;
     private Habitacion[] habitaciones;
-    private int habitacionActual;
+    private int habitacionActualIndex;
 
     public GestorJuego() {
         this.superviviente = new Superviviente();
         this.habitaciones = new Habitacion[0];
+        this.estado = EstadosJuego.PREPARANDO;
     }
 
     public void prepararJuego(int numeroHabitaciones) {
@@ -15,42 +24,50 @@ public class GestorJuego {
         for (int i = 0; i < numeroHabitaciones; i++) {
             habitaciones[i] = new Habitacion(i + 1);
         }
-        habitacionActual = 0;
+        habitacionActualIndex = 0;
+        estado = EstadosJuego.JUGANDO;
     }
 
-    public boolean intentarAvanzarHabitacion() {
-        habitacionActual += 1;
-        return habitaciones.length > habitacionActual;
+    // Devuelve true si el combate ha sido exitoso y el superviviente ha sobrevivido, false si el superviviente ha muerto
+    public ResultadoTurno procesarTurnoCombate() {
+        if (habitacionActualVacia()) {
+            return new ResultadoTurno(0, "No hay zombies en esta habitación");
+        }
+
+        Zombie zombie = getZombiesEnHabitacion().getFirst();
+        int danioRealizado = superviviente.atacar(zombie);
+        return new ResultadoTurno(danioRealizado, String.format("Realizas %d de daño a %s", danioRealizado, zombie.getNombre()));
     }
 
-    public int getHabitacionActual() {
-        return habitacionActual;
+    public void buscarHabitacion() {
+
     }
 
-    public List<Zombie> getZombiesEnHabitacion() {
-        return habitaciones[habitacionActual].getZombies();
+    public void intentarAvanzarHabitacion() {
+        habitacionActualIndex += 1;
+        if (habitacionActualIndex > habitaciones.length) {
+            estado = EstadosJuego.GANADO;
+        }
     }
 
-    public boolean tieneHabitacionZombies() {
-        return getZombiesEnHabitacion().isEmpty();
+    public boolean habitacionActualVacia() {
+        return habitaciones[habitacionActualIndex].getZombies().isEmpty();
+    }
+
+    public EstadosJuego getEstado() {
+        return estado;
     }
 
     public Superviviente getSuperviviente() {
         return superviviente;
     }
 
-    public boolean estaSupervivienteVivo() {
-        return superviviente.estaVivo();
+    public int getHabitacionActualIndex() {
+        return habitacionActualIndex;
     }
 
-    // Devuelve true si el combate ha sido exitoso y el superviviente ha sobrevivido, false si el superviviente ha muerto
-    public boolean procesarTurnoCombate() {
-        Zombie zombieObjetivo = getZombiesEnHabitacion().getFirst();
-        boolean zombieDerrotado = superviviente.atacar(zombieObjetivo);
-        if (zombieDerrotado) {
-            getZombiesEnHabitacion().remove(zombieObjetivo);
-            return true;
-        }
-        return !zombieObjetivo.atacar(superviviente);
+    private List<Zombie> getZombiesEnHabitacion() {
+        return habitaciones[habitacionActualIndex].getZombies();
     }
+
 }

@@ -14,10 +14,10 @@ public class Partida {
         int dificultad = lectorConsola.leerEnteroEnRango("Opción", 1, 2);
         procesarDificultad(dificultad);
 
-        while (gestorJuego.estaSupervivienteVivo()) {
-            mostrarEstadoHabitacion();
+        while (gestorJuego.getEstado() == GestorJuego.EstadosJuego.JUGANDO) {
+            // mostrarEstadoHabitacion();
             int accion = lectorConsola.leerEnteroEnRango("Acción", 1, 3);
-            procesarAccion(accion);
+            // procesarAccion(accion);
         }
     }
 
@@ -42,6 +42,7 @@ public class Partida {
         }
     }
 
+    /*
     private void mostrarEstadoHabitacion() {
         List<Zombie> zombies = gestorJuego.getZombiesEnHabitacion();
         String estadoHabitacion = String.format("Habitación: %d | Contiene %d zombies", gestorJuego.getHabitacionActual(), zombies.size());
@@ -49,7 +50,7 @@ public class Partida {
         imprimirSeparador();
         mostrarEstadoSuperviviente();
         System.out.println(estadoHabitacion);
-        if (!zombies.isEmpty()) {
+        if (game) {
             System.out.println("1. Combatir un zombie");
         } else {
             System.out.println("2. Buscar habitación");
@@ -57,6 +58,8 @@ public class Partida {
         }
         imprimirSeparador();
     }
+
+
 
     private void procesarAccion(int accion) {
         List<Zombie> zombies = gestorJuego.getZombiesEnHabitacion();
@@ -99,4 +102,5 @@ public class Partida {
         String estadoZombie = String.format("PV: %d | Fuerza: %d", zombie.getVidaActual(), zombie.getFuerza());
         System.out.println(estadoZombie);
     }
+     */
 }
