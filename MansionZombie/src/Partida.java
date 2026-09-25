@@ -16,7 +16,7 @@ public class Partida {
 
         while (gestorJuego.getEstado() == GestorJuego.EstadosJuego.JUGANDO) {
             // mostrarEstadoHabitacion();
-            int accion = lectorConsola.leerEnteroEnRango("Acción", 1, 3);
+            int accion = lectorConsola.leerEntero("Acción");
             // procesarAccion(accion);
         }
     }
