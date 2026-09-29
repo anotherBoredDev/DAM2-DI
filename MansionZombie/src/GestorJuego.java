@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class GestorJuego {
     private EstadoJuego estado;
     private Superviviente superviviente;
@@ -35,10 +37,11 @@ public class GestorJuego {
 
     public void ejecutarTurnoAtaque() {
 
+        actualizarEstado();
     }
 
-    public void intentarCurarSuperviviente() {
-
+    public boolean intentarCurarSuperviviente() {
+        return superviviente.usarBotiquin();
     }
 
     public void buscarHabitacion() {
@@ -46,7 +49,8 @@ public class GestorJuego {
     }
 
     public void avanzarSiguienteHabitacion() {
-
+        habitacionActualIndex++;
+        actualizarEstado();
     }
 
     public EstadoJuego getEstado() {
@@ -61,7 +65,15 @@ public class GestorJuego {
         return habitacionActualIndex;
     }
 
+    public List<Zombie> getZombiesEnHabitacionActual() {
+        return habitaciones[habitacionActualIndex].getZombies();
+    }
+
     public int getCantidadZombiesEnHabitacionActual() {
-        return habitaciones[habitacionActualIndex].getZombies().size();
+        return getZombiesEnHabitacionActual().size();
+    }
+
+    public int getIntentosBusquedaEnHabitacionActual() {
+        return habitaciones[habitacionActualIndex].getIntentosBusqueda();
     }
 }

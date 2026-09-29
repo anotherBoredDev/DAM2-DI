@@ -47,6 +47,8 @@ public class Partida {
 
         int cantidadZombies = gestorJuego.getCantidadZombiesEnHabitacionActual();
 
+        int intentosBusquedaRestantes = gestorJuego.getIntentosBusquedaEnHabitacionActual();
+
         imprimirSeparador();
         System.out.println("PV: " + vidaSuperviviente + " | PROTECCIÓN: " + proteccionesSuperviviente + " | ARMAS: " + armasSuperviviente);
         System.out.println("HABITACIÓN " + (gestorJuego.getHabitacionActualIndex() + 1) + " | ZOMBIES: " + cantidadZombies);
@@ -56,7 +58,7 @@ public class Partida {
             System.out.println("1. COMBATIR ZOMBIES");
         } else if (gestorJuego.getEstado() == EstadoJuego.EXPLORACION){
             System.out.println("2. CURARSE");
-            System.out.println("3. BUSCAR LA HABITACIÓN");
+            System.out.println("3. BUSCAR LA HABITACIÓN (" + intentosBusquedaRestantes + " INTENTO" + (intentosBusquedaRestantes != 1 ? "s" : "") + ")");
             System.out.println("4. AVANZAR DE HABITACIÓN");
         }
         imprimirSeparador();
@@ -68,6 +70,7 @@ public class Partida {
         switch (accion) {
             case 1 -> {
                 if (estado == EstadoJuego.COMBATE ) {
+
                     gestorJuego.ejecutarTurnoAtaque();
                 } else {
                     System.out.println("Acción prohibida: No hay zombies que atacar.");

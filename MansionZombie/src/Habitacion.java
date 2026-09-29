@@ -26,6 +26,10 @@ public class Habitacion {
         return numero;
     }
 
+    public int getIntentosBusqueda() {
+        return intentosBusqueda;
+    }
+
     public List<Zombie> getZombies() {
         return zombies;
     }
