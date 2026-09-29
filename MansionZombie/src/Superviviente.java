@@ -19,10 +19,6 @@ public class Superviviente extends Personaje {
         return super.recibirDanio(cantidad - cantidadProtecciones);
     }
 
-    public void curar(int cantidad) {
-        setVidaActual(getVidaActual() + cantidad);
-    }
-
     public boolean usarBotiquin() {
         if (!tieneBotiquin) {
             return false;
@@ -30,6 +26,10 @@ public class Superviviente extends Personaje {
         tieneBotiquin = false;
         curar(4);
         return true;
+    }
+
+    private void curar(int cantidad) {
+        setVida(getVida() + cantidad);
     }
 
     public boolean intentarConseguirBotiquin() {
