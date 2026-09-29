@@ -1,14 +1,5 @@
-import java.util.List;
-
 public class GestorJuego {
-    public enum EstadosJuego {
-        PREPARANDO,
-        JUGANDO,
-        GANADO,
-        PERDIDO,
-    }
-
-    private EstadosJuego estado;
+    private EstadoJuego estado;
     private Superviviente superviviente;
     private Habitacion[] habitaciones;
     private int habitacionActualIndex;
@@ -16,45 +7,49 @@ public class GestorJuego {
     public GestorJuego() {
         this.superviviente = new Superviviente();
         this.habitaciones = new Habitacion[0];
-        this.estado = EstadosJuego.PREPARANDO;
     }
 
-    public void prepararJuego(int numeroHabitaciones) {
+    public void actualizarEstado() {
+        if (superviviente.getVida() <= 0) {
+            estado = EstadoJuego.PERDIDO;
+        } else if (habitacionActualIndex >= habitaciones.length) {
+            estado = EstadoJuego.GANADO;
+        } else if (!habitaciones[habitacionActualIndex].getZombies().isEmpty()) {
+            estado = EstadoJuego.COMBATE;
+        } else {
+            estado = EstadoJuego.EXPLORACION;
+        }
+    }
+
+    public void iniciarJuego(int numeroHabitaciones) {
         habitaciones = new Habitacion[numeroHabitaciones];
+
         for (int i = 0; i < numeroHabitaciones; i++) {
             habitaciones[i] = new Habitacion(i + 1);
         }
+
         habitacionActualIndex = 0;
-        estado = EstadosJuego.JUGANDO;
+
+        actualizarEstado();
     }
 
-    // Devuelve true si el combate ha sido exitoso y el superviviente ha sobrevivido, false si el superviviente ha muerto
-    public ResultadoTurno procesarTurnoCombate() {
-        if (habitacionActualVacia()) {
-            return new ResultadoTurno(0, "No hay zombies en esta habitación");
-        }
+    public void ejecutarTurnoAtaque() {
 
-        Zombie zombie = getZombiesEnHabitacion().getFirst();
-        int danioRealizado = superviviente.atacar(zombie);
-        return new ResultadoTurno(danioRealizado, String.format("Realizas %d de daño a %s", danioRealizado, zombie.getNombre()));
+    }
+
+    public void intentarCurarSuperviviente() {
+
     }
 
     public void buscarHabitacion() {
 
     }
 
-    public void intentarAvanzarHabitacion() {
-        habitacionActualIndex += 1;
-        if (habitacionActualIndex > habitaciones.length) {
-            estado = EstadosJuego.GANADO;
-        }
+    public void avanzarSiguienteHabitacion() {
+
     }
 
-    public boolean habitacionActualVacia() {
-        return habitaciones[habitacionActualIndex].getZombies().isEmpty();
-    }
-
-    public EstadosJuego getEstado() {
+    public EstadoJuego getEstado() {
         return estado;
     }
 
@@ -66,8 +61,7 @@ public class GestorJuego {
         return habitacionActualIndex;
     }
 
-    private List<Zombie> getZombiesEnHabitacion() {
-        return habitaciones[habitacionActualIndex].getZombies();
+    public int getCantidadZombiesEnHabitacionActual() {
+        return habitaciones[habitacionActualIndex].getZombies().size();
     }
-
 }

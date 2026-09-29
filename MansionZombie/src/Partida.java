@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class Partida {
     private final GestorJuego gestorJuego;
     private final LectorConsola lectorConsola;
@@ -14,10 +12,10 @@ public class Partida {
         int dificultad = lectorConsola.leerEnteroEnRango("Opción", 1, 2);
         procesarDificultad(dificultad);
 
-        while (gestorJuego.getEstado() == GestorJuego.EstadosJuego.JUGANDO) {
-            // mostrarEstadoHabitacion();
+        while (gestorJuego.getEstado() != EstadoJuego.GANADO && gestorJuego.getEstado() != EstadoJuego.PERDIDO) {
+            mostrarMenuAcciones();
             int accion = lectorConsola.leerEntero("Acción");
-            // procesarAccion(accion);
+            procesarAccion(accion);
         }
     }
 
@@ -36,71 +34,71 @@ public class Partida {
 
     private void procesarDificultad(int dificultad) {
         switch (dificultad) {
-            case 1 -> gestorJuego.prepararJuego(5);
-            case 2 -> gestorJuego.prepararJuego(10);
+            case 1 -> gestorJuego.iniciarJuego(5);
+            case 2 -> gestorJuego.iniciarJuego(10);
             default -> System.out.println("Error: Valor de dificultad incorrecto (1-2)");
         }
     }
 
-    /*
-    private void mostrarEstadoHabitacion() {
-        List<Zombie> zombies = gestorJuego.getZombiesEnHabitacion();
-        String estadoHabitacion = String.format("Habitación: %d | Contiene %d zombies", gestorJuego.getHabitacionActual(), zombies.size());
+    private void mostrarMenuAcciones() {
+        int vidaSuperviviente = gestorJuego.getSuperviviente().getVida();
+        int proteccionesSuperviviente = gestorJuego.getSuperviviente().getCantidadProtecciones();
+        int armasSuperviviente = gestorJuego.getSuperviviente().getCantidadArmas();
+
+        int cantidadZombies = gestorJuego.getCantidadZombiesEnHabitacionActual();
 
         imprimirSeparador();
-        mostrarEstadoSuperviviente();
-        System.out.println(estadoHabitacion);
-        if (game) {
-            System.out.println("1. Combatir un zombie");
-        } else {
-            System.out.println("2. Buscar habitación");
-            System.out.println("3. Avanzar a la siguiente habitación");
+        System.out.println("PV: " + vidaSuperviviente + " | PROTECCIÓN: " + proteccionesSuperviviente + " | ARMAS: " + armasSuperviviente);
+        System.out.println("HABITACIÓN " + (gestorJuego.getHabitacionActualIndex() + 1) + " | ZOMBIES: " + cantidadZombies);
+        System.out.println("¿QUÉ ACCIÓN QUIERES REALIZAR?");
+
+        if (gestorJuego.getEstado() == EstadoJuego.COMBATE) {
+            System.out.println("1. COMBATIR ZOMBIES");
+        } else if (gestorJuego.getEstado() == EstadoJuego.EXPLORACION){
+            System.out.println("2. CURARSE");
+            System.out.println("3. BUSCAR LA HABITACIÓN");
+            System.out.println("4. AVANZAR DE HABITACIÓN");
         }
         imprimirSeparador();
     }
 
-
-
     private void procesarAccion(int accion) {
-        List<Zombie> zombies = gestorJuego.getZombiesEnHabitacion();
-        boolean enCombate = !zombies.isEmpty();
+        EstadoJuego estado = gestorJuego.getEstado();
 
         switch (accion) {
             case 1 -> {
-                if (!enCombate) {
-                    System.out.println("Error: Acción no valida en el contexto actual");
+                if (estado == EstadoJuego.COMBATE ) {
+                    gestorJuego.ejecutarTurnoAtaque();
                 } else {
-                    for (int i = 0; i < zombies.size(); i++) {
-                        gestorJuego.procesarTurnoCombate();
-                    }
+                    System.out.println("Acción prohibida: No hay zombies que atacar.");
                 }
             }
+
             case 2 -> {
-                if (enCombate) {
-                    System.out.println("Error: Acción no valida en el contexto actual");
+                if (estado == EstadoJuego.EXPLORACION) {
+                    gestorJuego.intentarCurarSuperviviente();
+                } else {
+                    System.out.println("Acción prohibida: Estás en combate.");
                 }
             }
+
             case 3 -> {
-                if (enCombate) {
-                    System.out.println("Error: Acción no valida en el contexto actual");
+                if (estado == EstadoJuego.EXPLORACION) {
+                    gestorJuego.buscarHabitacion();
+                } else {
+                    System.out.println("Acción prohibida: Estás en combate.");
                 }
             }
-            default -> System.out.println("Error: Acción no reconocida");
+
+            case 4 -> {
+                if (estado == EstadoJuego.EXPLORACION) {
+                    gestorJuego.avanzarSiguienteHabitacion();
+                } else {
+                    System.out.println("Acción prohibida: Quedan zombies en la habitación.");
+                }
+            }
+
+            default -> System.out.println("Acción no encontrada.");
         }
     }
-
-    private void mostrarEstadoSuperviviente() {
-        Superviviente superviviente = gestorJuego.getSuperviviente();
-        String estadoSuperviviente = String.format("PV: %d | Armas: %d | Protecciones: %d",
-                superviviente.getVidaActual(),
-                superviviente.getCantidadArmas(),
-                superviviente.getCantidadProtecciones());
-        System.out.println(estadoSuperviviente);
-    }
-
-    private void mostrarEstadoZombie(Zombie zombie) {
-        String estadoZombie = String.format("PV: %d | Fuerza: %d", zombie.getVidaActual(), zombie.getFuerza());
-        System.out.println(estadoZombie);
-    }
-     */
 }
