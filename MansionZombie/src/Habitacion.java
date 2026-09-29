@@ -9,15 +9,17 @@ public class Habitacion {
     public Habitacion(int numero) {
         this.numero = numero;
         this.zombies = new ArrayList<>();
-        this.zombies.add(generarZombie(this.numero));
+        generarZombie();
     }
 
-    private Zombie generarZombie(int numeroHabitacion) {
+    private void generarZombie() {
         String nombre = "Zombie " + (zombies.size() + 1);
-        int vida = Dado.tirarDado(0, 1) + 2 + (numeroHabitacion - 1);
-        int fuerza = Dado.tirarDado(0, 1) + 2 + (numeroHabitacion - 1);
+        int vida = Dado.tirarDado(0, 1) + 2 + (numero - 1);
+        int fuerza = Dado.tirarDado(0, 1) + 2 + (numero - 1);
 
-        return new Zombie(nombre, vida, fuerza);
+        Zombie zombie = new Zombie(nombre, vida, fuerza);
+
+        zombies.add(zombie);
     }
 
     public int getNumero() {
