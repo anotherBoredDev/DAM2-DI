@@ -16,7 +16,7 @@ public class GestorJuego {
             estado = EstadoJuego.PERDIDO;
         } else if (habitacionActualIndex >= habitaciones.length) {
             estado = EstadoJuego.GANADO;
-        } else if (!habitaciones[habitacionActualIndex].getZombies().isEmpty()) {
+        } else if (!getZombiesEnHabitacionActual().isEmpty()) {
             estado = EstadoJuego.COMBATE;
         } else {
             estado = EstadoJuego.EXPLORACION;
@@ -35,9 +35,22 @@ public class GestorJuego {
         actualizarEstado();
     }
 
-    public void ejecutarTurnoAtaque() {
+    public ResultadoAtaque ejecutarTurnoAtaque() {
+        Zombie enemigo = getZombiesEnHabitacionActual().getFirst();
+        int danioSuperviviente, danioEnemigo;
+
+        danioSuperviviente = superviviente.atacar(enemigo);
+
+        if (enemigo.getVida() <= 0) {
+            getZombiesEnHabitacionActual().remove(enemigo);
+            actualizarEstado();
+            return new ResultadoAtaque(danioSuperviviente, 0, true);
+        }
+
+        danioEnemigo = enemigo.atacar(superviviente);
 
         actualizarEstado();
+        return new ResultadoAtaque(danioSuperviviente, danioEnemigo, false);
     }
 
     public boolean intentarCurarSuperviviente() {
