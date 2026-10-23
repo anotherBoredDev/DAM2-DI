@@ -22,6 +22,12 @@ public class Habitacion {
         zombies.add(zombie);
     }
 
+    public void generarZombies(int cantidad) {
+        for (int i = 0; i < cantidad; i++) {
+            generarZombie();
+        }
+    }
+
     public int getNumero() {
         return numero;
     }
