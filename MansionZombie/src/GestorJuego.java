@@ -58,7 +58,28 @@ public class GestorJuego {
     }
 
     public void buscarHabitacion() {
+        if (getIntentosBusquedaEnHabitacionActual() <= 0) {
+            return;
+        }
 
+        int dado = Dado.tirarDado(100);
+        if (dado <= 75) {
+            dado = Dado.tirarDado(100);
+            if (dado > 40 && dado <= 80) {
+                getHabitacionActual().generarZombies(1);
+            } else if (dado > 80 && dado <= 100) {
+                getHabitacionActual().generarZombies(2);
+            }
+        } else if (dado <= 90) {
+            superviviente.intentarConseguirBotiquin();
+        } else if (dado <= 95) {
+            superviviente.conseguirProteccion();
+        } else {
+            superviviente.conseguirArma();
+        }
+
+        getHabitacionActual().consumirBusqueda();
+        actualizarEstado();
     }
 
     public void avanzarSiguienteHabitacion() {
@@ -74,12 +95,16 @@ public class GestorJuego {
         return superviviente;
     }
 
+    private Habitacion getHabitacionActual() {
+        return habitaciones[habitacionActualIndex];
+    }
+
     public int getHabitacionActualIndex() {
         return habitacionActualIndex;
     }
 
     public List<Zombie> getZombiesEnHabitacionActual() {
-        return habitaciones[habitacionActualIndex].getZombies();
+        return getHabitacionActual().getZombies();
     }
 
     public int getCantidadZombiesEnHabitacionActual() {
@@ -87,6 +112,6 @@ public class GestorJuego {
     }
 
     public int getIntentosBusquedaEnHabitacionActual() {
-        return habitaciones[habitacionActualIndex].getIntentosBusqueda();
+        return getHabitacionActual().getIntentosBusqueda();
     }
 }
