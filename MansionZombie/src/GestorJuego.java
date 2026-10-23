@@ -69,23 +69,23 @@ public class GestorJuego {
         if (dado <= 75) {
             dado = Dado.tirarDado(100);
 
-            resultado =  ResultadoBusqueda.RUIDO_SIN_CONSECUENCIAS;
+            resultado = ResultadoBusqueda.RUIDO_SIN_CONSECUENCIAS;
 
             if (dado > 40 && dado <= 80) {
                 getHabitacionActual().generarZombies(1);
                 resultado = ResultadoBusqueda.RUIDO_UN_ZOMBIE;
             } else if (dado > 80 && dado <= 100) {
                 getHabitacionActual().generarZombies(2);
-                resultado =  ResultadoBusqueda.RUIDO_DOS_ZOMBIES;
+                resultado = ResultadoBusqueda.RUIDO_DOS_ZOMBIES;
             }
         } else if (dado <= 90) {
-            resultado =  superviviente.intentarConseguirBotiquin() ? ResultadoBusqueda.BOTIQUIN_CONSEGUIDO : ResultadoBusqueda.BOTIQUIN_NO_CONSEGUIDO;
+            resultado = superviviente.intentarConseguirBotiquin() ? ResultadoBusqueda.BOTIQUIN_CONSEGUIDO : ResultadoBusqueda.BOTIQUIN_NO_CONSEGUIDO;
         } else if (dado <= 95) {
             superviviente.conseguirProteccion();
-            resultado =  ResultadoBusqueda.PROTECCION_CONSEGUIDA;
+            resultado = ResultadoBusqueda.PROTECCION_CONSEGUIDA;
         } else {
             superviviente.conseguirArma();
-            resultado =  ResultadoBusqueda.ARMA_CONSEGUIDA;
+            resultado = ResultadoBusqueda.ARMA_CONSEGUIDA;
         }
 
         getHabitacionActual().consumirBusqueda();

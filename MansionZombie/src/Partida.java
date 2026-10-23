@@ -106,10 +106,13 @@ public class Partida {
     private void mostrarResultadoBusqueda(ResultadoBusqueda resultado) {
         switch (resultado) {
             case RUIDO_SIN_CONSECUENCIAS -> System.out.println("¡Has hecho ruido! Por suerte nadie te ha escuchado.");
-            case RUIDO_UN_ZOMBIE -> System.out.println("¡Has hecho ruido! Te ha escuchado un zombie y ha entrado a la habitación.");
-            case RUIDO_DOS_ZOMBIES -> System.out.println("¡Has hecho mucho ruido! Te han escuchado dos zombies y han entrado a la habitación.");
+            case RUIDO_UN_ZOMBIE ->
+                    System.out.println("¡Has hecho ruido! Te ha escuchado un zombie y ha entrado a la habitación.");
+            case RUIDO_DOS_ZOMBIES ->
+                    System.out.println("¡Has hecho mucho ruido! Te han escuchado dos zombies y han entrado a la habitación.");
             case BOTIQUIN_CONSEGUIDO -> System.out.println("Has encontrado 1 botiquín.");
-            case BOTIQUIN_NO_CONSEGUIDO -> System.out.println("Has encontrado un botiquín pero no puedes cargar con más.");
+            case BOTIQUIN_NO_CONSEGUIDO ->
+                    System.out.println("Has encontrado un botiquín pero no puedes cargar con más.");
             case PROTECCION_CONSEGUIDA -> System.out.println("Has conseguido una protección.");
             case ARMA_CONSEGUIDA -> System.out.println("Has conseguido un arma.");
             case SIN_INTENTOS -> System.out.println("No te quedan intentos de búsqueda.");
