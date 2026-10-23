@@ -86,7 +86,7 @@ public class Partida {
         System.out.println("---");
     }
 
-    private void mostrarResultadoCombate(ResultadoAtaque resultado) {
+    private void mostrarResultadoCombate(ReporteAtaque resultado) {
         System.out.println("El superviviente ataca con " + resultado.danioSuperviviente() + " puntos de ataque.");
         if (resultado.danioEnemigo() != 0 || !resultado.enemigoDerrotado()) {
             System.out.println("El enemigo ataca con " + resultado.danioEnemigo() + " puntos de ataque.");
@@ -122,7 +122,7 @@ public class Partida {
                     imprimirSeparador();
                     do {
                         mostrarEstadoCombate(ronda++);
-                        ResultadoAtaque resultado = gestorJuego.ejecutarTurnoAtaque();
+                        ReporteAtaque resultado = gestorJuego.ejecutarTurnoAtaque();
                         mostrarResultadoCombate(resultado);
                         estado = gestorJuego.getEstado();
                     } while (estado == EstadoJuego.COMBATE);

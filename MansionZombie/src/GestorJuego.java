@@ -35,7 +35,7 @@ public class GestorJuego {
         actualizarEstado();
     }
 
-    public ResultadoAtaque ejecutarTurnoAtaque() {
+    public ReporteAtaque ejecutarTurnoAtaque() {
         Zombie enemigo = getZombiesEnHabitacionActual().getFirst();
         int danioSuperviviente, danioEnemigo;
 
@@ -44,13 +44,13 @@ public class GestorJuego {
         if (enemigo.getVida() <= 0) {
             getZombiesEnHabitacionActual().remove(enemigo);
             actualizarEstado();
-            return new ResultadoAtaque(danioSuperviviente, 0, true);
+            return new ReporteAtaque(danioSuperviviente, 0, true);
         }
 
         danioEnemigo = enemigo.atacar(superviviente);
 
         actualizarEstado();
-        return new ResultadoAtaque(danioSuperviviente, danioEnemigo, false);
+        return new ReporteAtaque(danioSuperviviente, danioEnemigo, false);
     }
 
     public boolean intentarCurarSuperviviente() {
