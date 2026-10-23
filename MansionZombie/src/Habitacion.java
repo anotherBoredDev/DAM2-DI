@@ -28,10 +28,6 @@ public class Habitacion {
         }
     }
 
-    public int getNumero() {
-        return numero;
-    }
-
     public int getIntentosBusqueda() {
         return intentosBusqueda;
     }
