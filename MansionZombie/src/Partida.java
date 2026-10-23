@@ -87,9 +87,9 @@ public class Partida {
     }
 
     private void mostrarResultadoCombate(ReporteAtaque resultado) {
-        System.out.println("El superviviente ataca con " + resultado.danioSuperviviente() + " puntos de ataque.");
+        System.out.println("El superviviente ataca con " + resultado.danioSuperviviente() + (resultado.danioSuperviviente() != 0 ? " puntos" : " punto") + " de ataque.");
         if (resultado.danioEnemigo() != 0 || !resultado.enemigoDerrotado()) {
-            System.out.println("El enemigo ataca con " + resultado.danioEnemigo() + " puntos de ataque.");
+            System.out.println("El enemigo ataca con " + resultado.danioEnemigo() + (resultado.danioEnemigo() != 0 ? " puntos" : " punto") + " de ataque.");
         } else {
             System.out.println("Has eliminado al enemigo.");
         }
@@ -135,7 +135,6 @@ public class Partida {
             case 1 -> {
                 if (estado == EstadoJuego.COMBATE) {
                     int ronda = 1;
-                    imprimirSeparador();
                     do {
                         mostrarEstadoCombate(ronda++);
                         ReporteAtaque resultado = gestorJuego.ejecutarTurnoAtaque();
