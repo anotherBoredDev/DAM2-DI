@@ -57,29 +57,40 @@ public class GestorJuego {
         return superviviente.usarBotiquin();
     }
 
-    public void buscarHabitacion() {
+    public ResultadoBusqueda buscarHabitacion() {
         if (getIntentosBusquedaEnHabitacionActual() <= 0) {
-            return;
+            return ResultadoBusqueda.SIN_INTENTOS;
         }
 
+        ResultadoBusqueda resultado;
+
         int dado = Dado.tirarDado(100);
+
         if (dado <= 75) {
             dado = Dado.tirarDado(100);
+
+            resultado =  ResultadoBusqueda.RUIDO_SIN_CONSECUENCIAS;
+
             if (dado > 40 && dado <= 80) {
                 getHabitacionActual().generarZombies(1);
+                resultado = ResultadoBusqueda.RUIDO_UN_ZOMBIE;
             } else if (dado > 80 && dado <= 100) {
                 getHabitacionActual().generarZombies(2);
+                resultado =  ResultadoBusqueda.RUIDO_DOS_ZOMBIES;
             }
         } else if (dado <= 90) {
-            superviviente.intentarConseguirBotiquin();
+            resultado =  superviviente.intentarConseguirBotiquin() ? ResultadoBusqueda.BOTIQUIN_CONSEGUIDO : ResultadoBusqueda.BOTIQUIN_NO_CONSEGUIDO;
         } else if (dado <= 95) {
             superviviente.conseguirProteccion();
+            resultado =  ResultadoBusqueda.PROTECCION_CONSEGUIDA;
         } else {
             superviviente.conseguirArma();
+            resultado =  ResultadoBusqueda.ARMA_CONSEGUIDA;
         }
 
         getHabitacionActual().consumirBusqueda();
         actualizarEstado();
+        return resultado;
     }
 
     public void avanzarSiguienteHabitacion() {
