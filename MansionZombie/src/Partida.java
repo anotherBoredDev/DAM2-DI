@@ -95,6 +95,14 @@ public class Partida {
         }
     }
 
+    private void mostrarResultadoCuracion(boolean exito) {
+        if (exito) {
+            System.out.println("Te has curado exitosamente. Ya no tienes botiquines.");
+        } else {
+            System.out.println("No tienes botiquines.");
+        }
+    }
+
     private void procesarDificultad(int dificultad) {
         switch (dificultad) {
             case 1 -> gestorJuego.iniciarJuego(5);
@@ -102,7 +110,6 @@ public class Partida {
             default -> System.out.println("Error: Valor de dificultad incorrecto (1-2)");
         }
     }
-
 
     private void procesarAccion(int accion) {
         EstadoJuego estado = gestorJuego.getEstado();
@@ -127,7 +134,7 @@ public class Partida {
             // CURARSE
             case 2 -> {
                 if (estado == EstadoJuego.EXPLORACION) {
-                    gestorJuego.intentarCurarSuperviviente();
+                    mostrarResultadoCuracion(gestorJuego.intentarCurarSuperviviente());
                 } else {
                     System.out.println("Acción prohibida: Estás en combate.");
                 }
