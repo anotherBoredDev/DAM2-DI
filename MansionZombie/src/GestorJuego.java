@@ -2,7 +2,7 @@ import java.util.List;
 
 public class GestorJuego {
     private EstadoJuego estado;
-    private Superviviente superviviente;
+    private Superviviente  superviviente;
     private Habitacion[] habitaciones;
     private int habitacionActualIndex;
 
