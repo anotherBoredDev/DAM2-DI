@@ -2,20 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ejerciosaprenderjavaswing;
+package ejerciciosjavaswingintro;
 
 /**
  *
  * @author Alumno Mañana
  */
-public class MensajeCuandoBoton extends javax.swing.JFrame {
+public class CerrrarCuandoBoton extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MensajeCuandoBoton.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CerrrarCuandoBoton.class.getName());
 
     /**
      * Creates new form MensajeCuandoBoton
      */
-    public MensajeCuandoBoton() {
+    public CerrrarCuandoBoton() {
         initComponents();
     }
 
@@ -82,7 +82,7 @@ public class MensajeCuandoBoton extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MensajeCuandoBoton().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new CerrrarCuandoBoton().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
